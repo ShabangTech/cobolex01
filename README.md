@@ -1,4 +1,17 @@
-# COBEX01 – DISPLAY & MOVE (COBOL on z/OS)
+# COBOL on z/OS — Exercises
+
+My COBOL exercises on an IBM z/OS mainframe: written in ISPF, compiled and run with JCL, and checked in SDSF. Each exercise keeps its program in `cobol/`, its job in `jcl/`, and a write-up with the output and a troubleshooting log.
+
+| # | Exercise | Skills | Output |
+|---|---|---|---|
+| 01 | [COBEX01 – DISPLAY & MOVE](#cobex01--display--move-cobol-on-zos) | Group variable, `MOVE`, `DISPLAY`, compile-link-go JCL | `DUPONT DAVID` |
+| 02 | [COBEX02 – Group variable (formatted date)](cobex02/README.md) | `FILLER` with `VALUE`, `ACCEPT` from SYSIN, one `DISPLAY` of a group | `23/10/2026` |
+
+**Stack:** COBOL · JCL · ISPF · SDSF · JES2 · IBM Enterprise COBOL 6.4
+
+---
+
+## COBEX01 – DISPLAY & MOVE (COBOL on z/OS)
 
 A first COBOL exercise on an IBM mainframe: declare a group variable, fill it with `MOVE`, print it with `DISPLAY`, then compile and run it with JCL.
 
@@ -8,14 +21,14 @@ A first COBOL exercise on an IBM mainframe: declare a group variable, fill it wi
 DUPONT DAVID
 ```
 
-## Repository layout
+### Repository layout
 
 | File | Mainframe location | What it is |
 |---|---|---|
 | [`cobol/COBEX01.cbl`](cobol/COBEX01.cbl) | `USER25.DEV.COBOL(COBEX01)` | The COBOL program |
 | [`jcl/COBEX01.jcl`](jcl/COBEX01.jcl) | `USER25.DEV.JCL(COBEX01)` | Job that compiles, links and runs it |
 
-## The exercise
+### The exercise
 
 1. In the `WORKING-STORAGE SECTION`, declare a group variable `FULL-NAME` made of two alphanumeric fields, `LAST-NAME` (6 characters) and `FIRST-NAME` (5 characters).
 2. In the `PROCEDURE DIVISION`, move `"DUPONT"` to `LAST-NAME` and `"DAVID"` to `FIRST-NAME`.
@@ -23,7 +36,7 @@ DUPONT DAVID
 4. End the program with `STOP RUN`.
 5. Compile and run it, and find the full name in SYSOUT.
 
-## The program – `USER25.DEV.COBOL(COBEX01)`
+### The program – `USER25.DEV.COBOL(COBEX01)`
 
 ```cobol
        IDENTIFICATION DIVISION.
@@ -55,7 +68,7 @@ DUPONT DAVID
 
 > **Without the `FILLER` line** the group is only 11 characters and the output is `DUPONTDAVID`, because the two fields sit side by side in memory. That is the strict answer to the exercise (exactly two elementary fields); the `FILLER` is an optional improvement for readability.
 
-### Column rules (fixed format)
+#### Column rules (fixed format)
 
 | Columns | Use |
 |---|---|
@@ -65,7 +78,7 @@ DUPONT DAVID
 | 12–72 | **Area B** – `05` levels and statements (`MOVE`, `DISPLAY`, …) |
 | 73–80 | Ignored |
 
-## The JCL – `USER25.DEV.JCL(COBEX01)`
+### The JCL – `USER25.DEV.JCL(COBEX01)`
 
 ```jcl
 //USER25C  JOB (ACCT),'COBEX01',CLASS=A,MSGCLASS=X,
@@ -85,34 +98,34 @@ DUPONT DAVID
 | `COBOL.SYSIN DD` | The source code fed to the compile step. |
 | `GO.SYSOUT DD` | Where `DISPLAY` output goes when the program runs. |
 
-## Step by step in ISPF
+### Step by step in ISPF
 
-### 1. Write the program
+#### 1. Write the program
 
 1. `=2` (Edit), open `USER25.DEV.COBOL(COBEX01)` (Project `USER25`, Group `DEV`, Type `COBOL`, Member `COBEX01`).
 2. Type the program above, respecting Area A / Area B.
 3. Type `SAVE` on the Command line.
 
-### 2. Write the JCL
+#### 2. Write the JCL
 
 1. `=2`, open `USER25.DEV.JCL(COBEX01)`.
 2. Type the JCL above.
 3. `SAVE`.
 
-### 3. Submit
+#### 3. Submit
 
 1. With the JCL open, type `SUB` on the Command line and press Enter.
 2. You get `JOB USER25C(JOBnnnnn) SUBMITTED`.
 3. Press Enter until the NOTIFY message appears. You want `MAXCC=0000`.
 
-### 4. Check the output
+#### 4. Check the output
 
 1. `=SD`, then `ST`.
 2. Put `?` next to your job and press Enter.
 3. Put `S` next to the **SYSOUT** line (ProcStep `GO`) and press Enter.
 4. You see `DUPONT DAVID` (or `DUPONTDAVID` without the `FILLER`).
 
-### Useful ISPF line commands
+#### Useful ISPF line commands
 
 Typed over the line number on the left, then Enter:
 
@@ -124,7 +137,7 @@ Typed over the line number on the left, then Enter:
 
 Command-line commands: `SAVE`, `SUB`, `CAN` (leave without saving), `RESET` (clear messages), `RECOVERY ON` (enable UNDO).
 
-## Troubleshooting log
+### Troubleshooting log
 
 Errors hit while doing this exercise, and the fixes:
 
@@ -139,7 +152,7 @@ Errors hit while doing this exercise, and the fixes:
 | `IKJ56228I DATA SET IGY.V6R4MO.SIGYPROC NOT IN CATALOG` | Letter **O** typed instead of zero | `V6R4M0` ends in the digit **0** |
 | Edited the wrong member (`RUNEX01`) | Old copy with old typos | `CAN`, then open the correct member |
 
-## Result
+### Result
 
 - Job `USER25C` ended **`MAXCC=0000`** (compile, link and run all succeeded).
 - SYSOUT of step `GO`: **`DUPONT DAVID`**.
