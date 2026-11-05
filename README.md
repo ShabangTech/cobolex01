@@ -154,6 +154,5 @@ Errors hit while doing this exercise, and the fixes:
 
 ### Result
 
-
 - Job `USER25C` ended **`MAXCC=0000`** (compile, link and run all succeeded).
 - SYSOUT of step `GO`: **`DUPONT DAVID`**.
