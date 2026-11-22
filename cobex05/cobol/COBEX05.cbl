@@ -1,0 +1,25 @@
+       IDENTIFICATION DIVISION.
+       PROGRAM-ID. COBEX05.
+
+       ENVIRONMENT DIVISION.
+
+       DATA DIVISION.
+       WORKING-STORAGE SECTION.
+
+       01 WS-I             PIC 99 VALUE 1.
+       01 WS-RES           PIC 99.
+
+       PROCEDURE DIVISION.
+       MAIN-PARA.
+
+           PERFORM CALCULATE-TABLE UNTIL WS-I > 10.
+
+           STOP RUN.
+
+       CALCULATE-TABLE.
+
+           MULTIPLY 5 BY WS-I GIVING WS-RES.
+
+           DISPLAY "5 X " WS-I " = " WS-RES.
+
+           ADD 1 TO WS-I.
