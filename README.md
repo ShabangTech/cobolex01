@@ -6,6 +6,8 @@ My COBOL exercises on an IBM z/OS mainframe: written in ISPF, compiled and run w
 |---|---|---|---|
 | 01 | [COBEX01 – DISPLAY & MOVE](#cobex01--display--move-cobol-on-zos) | Group variable, `MOVE`, `DISPLAY`, compile-link-go JCL | `DUPONT DAVID` |
 | 02 | [COBEX02 – Group variable (formatted date)](cobex02/README.md) | `FILLER` with `VALUE`, `ACCEPT` from SYSIN, one `DISPLAY` of a group | `23/10/2026` |
+| 03 | [COBEX03 – Arithmetic](cobex03/README.md) | `ADD` / `SUBTRACT` / `MULTIPLY` / `DIVIDE` / `COMPUTE`, `ROUNDED`, `ON SIZE ERROR`, edited PICs | `13.33` average |
+| 06 | [COBEX06 – Sequential file, 5% raise](cobex06/README.md) | ISPF 3.2 PS allocation, `FD` / `FILE STATUS`, read loop, IEFBR14 + `LIKE=` JCL | `02100 / 01575 / 03360` |
 
 **Stack:** COBOL · JCL · ISPF · SDSF · JES2 · IBM Enterprise COBOL 6.4
 
